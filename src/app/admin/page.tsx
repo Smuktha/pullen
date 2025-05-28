@@ -26,9 +26,8 @@ export default function AdminPage() {
       router.push("/admin/login");
     } else {
       setAuthorized(true); // Allow rendering
-      fetchAppointments();
+      fetchAppointments().finally(() => setLoading(false));
     }
-    setLoading(false); // Stop loading after check
   }, [router]);
 
   // Fetch appointments from your API
@@ -38,7 +37,7 @@ export default function AdminPage() {
       if (!res.ok) throw new Error("Failed to fetch appointments");
       const data = await res.json();
       setAppointments(data);
-    } catch (error) {
+    } catch {
       alert("Error loading appointments");
     }
   }
